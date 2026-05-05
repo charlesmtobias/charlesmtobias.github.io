@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>18-Week Training Tracker</title>
+<style>
+  :root {
+    --bg: #F7F7F5;
+    --surface: #FFFFFF;
+    --surface2: #F2F1EE;
+    --border: rgba(0,0,0,0.08);
+    --border2: rgba(0,0,0,0.14);
+    --text: #1A1A18;
+    --text2: #6B6B67;
+    --text3: #9B9B97;
+    --green: #3B6D11;
+    --green-bg: #EAF3DE;
+    --green-mid: #639922;
+    --blue: #185FA5;
+    --blue-bg: #E6F1FB;
+    --purple: #534AB7;
+    --purple-bg: #EEEDFE;
+    --red: #A32D2D;
+    --red-bg: #FCEBEB;
+    --amber: #854F0B;
+    --amber-bg: #FAEEDA;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111110;
+      --surface: #1C1C1A;
+      --surface2: #252523;
+      --border: rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.14);
+      --text: #F0F0EC;
+      --text2: #A0A09C;
+      --text3: #6B6B67;
+      --green: #97C459;
+      --green-bg: #173404;
+      --green-mid: #639922;
+      --blue: #85B7EB;
+      --blue-bg: #042C53;
+      --purple: #AFA9EC;
+      --purple-bg: #26215C;
+      --red: #F09595;
+      --red-bg: #501313;
+      --amber: #EF9F27;
+      --amber-bg: #412402;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  #app { max-width: 430px; margin: 0 auto; }
+
+  /* TOP BAR */
+  .topbar { background: var(--surface); border-bottom: 0.5px solid var(--border2); padding: 14px 16px 12px; display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 20; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  .topbar h1 { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.3px; }
+  .back-btn { background: none; border: none; cursor: pointer; font-size: 22px; color: var(--blue); padding: 0 6px 0 0; line-height: 1; display: flex; align-items: center; }
+
+  /* PROGRESS */
+  .progress-wrap { padding: 14px 16px 10px; background: var(--surface); border-bottom: 0.5px solid var(--border); }
+  .progress-bar-bg { background: var(--surface2); border-radius: 4px; height: 5px; overflow: hidden; margin-bottom: 6px; }
+  .progress-bar-fill { height: 5px; background: var(--green-mid); border-radius: 4px; transition: width 0.5s ease; }
+  .progress-label { font-size: 12px; color: var(--text3); }
+  .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; padding: 10px 16px 14px; background: var(--surface); border-bottom: 0.5px solid var(--border2); }
+  .stat-card { background: var(--surface2); border-radius: var(--radius-sm); padding: 10px 12px; }
+  .stat-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 3px; }
+  .stat-val { font-size: 22px; font-weight: 600; color: var(--text); letter-spacing: -0.5px; }
+
+  /* PHASE HEADER */
+  .phase-header { padding: 18px 16px 6px; font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .07em; }
+
+  /* DAY CARD */
+  .day-card { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 13px 16px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: background .12s; active: background: var(--surface2); }
+  .day-card:active { background: var(--surface2); }
+  .day-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .icon-hockey { background: var(--blue-bg); }
+  .icon-lift { background: var(--green-bg); }
+  .icon-run { background: var(--purple-bg); }
+  .icon-rest { background: var(--surface2); }
+  .icon-trial { background: var(--red-bg); }
+  .day-info { flex: 1; min-width: 0; }
+  .day-date { font-size: 12px; color: var(--text3); margin-bottom: 2px; }
+  .day-title { font-size: 15px; font-weight: 500; color: var(--text); letter-spacing: -0.2px; }
+  .day-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .check-circle { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--border2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .2s; }
+  .check-circle.done { background: var(--green-mid); border-color: var(--green-mid); color: #fff; font-size: 13px; }
+  .day-card.complete .day-title { color: var(--text3); }
+  .day-card.complete .day-date { color: var(--text3); }
+
+  /* DETAIL VIEW */
+  .detail-view { display: none; padding-bottom: 32px; }
+  .detail-hero { padding: 14px 16px 10px; }
+  .detail-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 500; padding: 5px 11px; border-radius: 20px; margin-bottom: 6px; }
+  .detail-week { font-size: 12px; color: var(--text3); }
+
+  /* SECTIONS */
+  .section { background: var(--surface); border-radius: var(--radius); margin: 0 12px 10px; overflow: hidden; border: 0.5px solid var(--border); }
+  .section-title { padding: 10px 14px; font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .06em; background: var(--surface2); border-bottom: 0.5px solid var(--border); }
+  .ex-row { padding: 13px 14px; border-bottom: 0.5px solid var(--border); }
+  .ex-row:last-child { border-bottom: none; }
+  .ex-name { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .ex-sets { font-size: 12px; color: var(--text3); margin-bottom: 10px; }
+  .input-grid { display: grid; gap: 8px; margin-bottom: 8px; }
+  .input-grid.cols2 { grid-template-columns: 1fr 1fr; }
+  .input-grid.cols3 { grid-template-columns: 1fr 1fr 1fr; }
+  .input-grid.cols5 { grid-template-columns: repeat(5, 1fr); }
+  .input-group label { display: block; font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+  .input-group input, .input-group textarea { width: 100%; padding: 8px 10px; border: 0.5px solid var(--border2); border-radius: var(--radius-sm); background: var(--surface2); color: var(--text); font-size: 14px; font-family: inherit; -webkit-appearance: none; outline: none; }
+  .input-group input:focus, .input-group textarea:focus { border-color: var(--blue); }
+  .input-group textarea { min-height: 72px; resize: none; line-height: 1.5; }
+  .run-detail-block { padding: 13px 14px; font-size: 14px; color: var(--text2); line-height: 1.7; }
+  .run-detail-block strong { color: var(--text); font-weight: 500; }
+  .highlight-box { margin: 0 12px 10px; padding: 12px 14px; background: var(--amber-bg); border-radius: var(--radius); border: 0.5px solid var(--border); }
+  .highlight-box p { font-size: 13px; color: var(--amber); line-height: 1.6; }
+  .complete-btn { display: block; margin: 4px 12px 0; padding: 14px; background: var(--green-mid); color: #fff; border: none; border-radius: var(--radius); font-size: 15px; font-weight: 600; cursor: pointer; width: calc(100% - 24px); letter-spacing: -0.2px; transition: background .15s; }
+  .complete-btn:active { background: var(--green); }
+  .complete-btn.done { background: var(--surface2); color: var(--text3); border: 0.5px solid var(--border2); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 0; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="list-view">
+    <div class="topbar"><h1>18-Week Training</h1></div>
+    <div class="progress-wrap">
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fill" style="width:0%"></div></div>
+      <div class="progress-label" id="prog-label">Loading...</div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-label">Done</div><div class="stat-val" id="stat-done">0</div></div>
+      <div class="stat-card"><div class="stat-label">Left</div><div class="stat-val" id="stat-rem">0</div></div>
+      <div class="stat-card"><div class="stat-label">Week</div><div class="stat-val" id="stat-wk">—</div></div>
+    </div>
+    <div id="day-list"></div>
+  </div>
+  <div id="detail-view" class="detail-view"></div>
+</div>
+
+<script>
+// ── CONFIG — edit these to change the program ─────────────────
+const START_DATE = new Date(2025, 4, 5); // May 5 2025 (Monday) — month is 0-indexed
+const HOCKEY_BREAK_WEEKS = [9, 10, 11, 12]; // weeks with no hockey
+
+// Lifting structure per phase and workout type
+const LIFT_EXERCISES = {
+  1: {
+    A: [
+      { name: 'Squat', sets: 5, reps: 5 },
+      { name: 'Bench Press', sets: 5, reps: 5 },
+      { name: 'Deadlift', sets: 1, reps: 5 },
+    ],
+    B: [
+      { name: 'Squat', sets: 5, reps: 5 },
+      { name: 'Overhead Press', sets: 5, reps: 5 },
+      { name: 'Deadlift', sets: 1, reps: 5 },
+    ],
+  },
+  2: {
+    A: [
+      { name: 'Squat', sets: 5, reps: 5 },
+      { name: 'Bench Press', sets: 5, reps: 5 },
+      { name: 'Deadlift', sets: 1, reps: 5 },
+    ],
+    B: [
+      { name: 'Squat', sets: 5, reps: 5 },
+      { name: 'Overhead Press', sets: 5, reps: 5 },
+      { name: 'Power Clean', sets: 5, reps: 3 },
+    ],
+  },
+  3: {
+    A: [
+      { name: 'Squat', sets: 5, reps: 5 },
+      { name: 'Bench Press', sets: 5, reps: 5 },
+      { name: 'Deadlift / Power Clean (alternating)', sets: 1, reps: 5 },
+    ],
+    B: [
+      { name: 'Squat', sets: 5, reps: 5 },
+      { name: 'Overhead Press', sets: 5, reps: 5 },
+      { name: 'Chin-Ups', sets: 3, reps: 0 }, // 0 reps = failure
+    ],
+  },
+};
+
+// Running schedule — add/edit entries here
+// day: 'Tue' or 'Sat', type: Walk/Run | Easy Run | Tempo Run | Intervals | Time Trial
+const RUNS = [
+  // Phase 1
+  { wk:1,  day:'Tue', type:'Walk/Run',   desc:'2 min @ 5.5 mph / 2 min @ 3.0 mph — 8 rounds (32 min total)', dist:1.8,  speed:'5.5 / 3.0' },
+  { wk:1,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 5.5 mph — 20 min', dist:1.83, speed:'5.5' },
+  { wk:2,  day:'Tue', type:'Walk/Run',   desc:'3 min @ 5.5 mph / 2 min @ 3.0 mph — 6 rounds (30 min total)', dist:1.9,  speed:'5.5 / 3.0' },
+  { wk:2,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 5.5 mph — 22 min', dist:2.0,  speed:'5.5' },
+  { wk:3,  day:'Tue', type:'Walk/Run',   desc:'4 min @ 5.8 mph / 1 min @ 3.0 mph — 6 rounds (30 min total)', dist:2.2,  speed:'5.8 / 3.0' },
+  { wk:3,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 5.8 mph — 22 min', dist:2.1,  speed:'5.8' },
+  { wk:4,  day:'Tue', type:'Easy Run',   desc:'Continuous @ 6.0 mph — 25 min', dist:2.5,  speed:'6.0' },
+  { wk:4,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.0 mph — 25 min', dist:2.5,  speed:'6.0' },
+  { wk:5,  day:'Tue', type:'Tempo Run',  desc:'5 min @ 5.5 → 15 min @ 6.5 → 5 min @ 5.0 mph', dist:2.6,  speed:'5.5 / 6.5 / 5.0' },
+  { wk:5,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.0 mph — 28 min', dist:2.8,  speed:'6.0' },
+  { wk:6,  day:'Tue', type:'Tempo Run',  desc:'5 min @ 5.5 → 20 min @ 6.5 → 5 min @ 5.0 mph', dist:3.0,  speed:'5.5 / 6.5 / 5.0' },
+  { wk:6,  day:'Sat', type:'Time Trial', desc:'5K Time Trial — run 3.1 mi at best effort. Target: sub-30:00 (~6.2 mph)', dist:3.1,  speed:'Best effort' },
+  // Phase 2
+  { wk:7,  day:'Tue', type:'Easy Run',   desc:'Continuous @ 6.2 mph — 30 min', dist:3.1,  speed:'6.2' },
+  { wk:7,  day:'Sat', type:'Tempo Run',  desc:'5 min @ 5.5 → 20 min @ 6.8 → 5 min @ 5.0 mph', dist:3.2,  speed:'5.5 / 6.8 / 5.0' },
+  { wk:8,  day:'Tue', type:'Intervals',  desc:'5 min @ 5.5 → 8x (1.5 min @ 7.5 / 1.5 min @ 3.5) → 5 min @ 5.0', dist:3.0,  speed:'7.5 / 3.5' },
+  { wk:8,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.2 mph — 32 min', dist:3.3,  speed:'6.2' },
+  { wk:9,  day:'Tue', type:'Tempo Run',  desc:'5 min @ 5.5 → 23 min @ 7.0 → 5 min @ 5.0 mph', dist:3.4,  speed:'5.5 / 7.0 / 5.0' },
+  { wk:9,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.5 mph — 30 min', dist:3.25, speed:'6.5' },
+  { wk:10, day:'Tue', type:'Intervals',  desc:'5 min @ 5.5 → 6x (2 min @ 7.8 / 2 min @ 3.5) → 5 min @ 5.0', dist:3.1,  speed:'7.8 / 3.5' },
+  { wk:10, day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.5 mph — 32 min', dist:3.47, speed:'6.5' },
+  { wk:11, day:'Tue', type:'Tempo Run',  desc:'5 min @ 5.5 → 25 min @ 7.2 → 5 min @ 5.0 mph', dist:3.7,  speed:'5.5 / 7.2 / 5.0' },
+  { wk:11, day:'Sat', type:'Intervals',  desc:'5 min @ 5.5 → 5x (3 min @ 7.8 / 2 min @ 3.5) → 5 min @ 5.0', dist:3.2,  speed:'7.8 / 3.5' },
+  { wk:12, day:'Tue', type:'Easy Run',   desc:'Continuous @ 6.5 mph — 30 min (shake out legs)', dist:3.25, speed:'6.5' },
+  { wk:12, day:'Sat', type:'Time Trial', desc:'5K Time Trial — run 3.1 mi at best effort. Target: sub-25:00 (~7.4 mph)', dist:3.1,  speed:'Best effort' },
+  // Phase 3
+  { wk:13, day:'Tue', type:'Intervals',  desc:'5 min @ 6.0 → 6x (2 min @ 8.2 / 90s @ 3.5) → 5 min @ 5.5', dist:3.2,  speed:'8.2 / 3.5' },
+  { wk:13, day:'Sat', type:'Tempo Run',  desc:'5 min @ 6.0 → 25 min @ 7.5 → 5 min @ 5.5 mph', dist:3.7,  speed:'6.0 / 7.5 / 5.5' },
+  { wk:14, day:'Tue', type:'Easy Run',   desc:'Continuous @ 6.8 mph — 30 min', dist:3.4,  speed:'6.8' },
+  { wk:14, day:'Sat', type:'Tempo Run',  desc:'5 min @ 6.0 → 28 min @ 7.8 → 5 min @ 5.5 mph', dist:4.0,  speed:'6.0 / 7.8 / 5.5' },
+  { wk:15, day:'Tue', type:'Intervals',  desc:'5 min @ 6.0 → 5x (3 min @ 8.5 / 90s @ 3.5) → 5 min @ 5.5', dist:3.4,  speed:'8.5 / 3.5' },
+  { wk:15, day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.8 mph — 32 min', dist:3.6,  speed:'6.8' },
+  { wk:16, day:'Tue', type:'Tempo Run',  desc:'5 min @ 6.0 → 28 min @ 8.0 → 5 min @ 5.5 mph', dist:4.1,  speed:'6.0 / 8.0 / 5.5' },
+  { wk:16, day:'Sat', type:'Intervals',  desc:'5 min @ 6.0 → 4x (4 min @ 8.5 / 2 min @ 3.5) → 5 min @ 5.5', dist:3.5,  speed:'8.5 / 3.5' },
+  { wk:17, day:'Tue', type:'Tempo Run',  desc:'5 min @ 6.0 → 20 min @ 8.2 → 5 min @ 5.5 mph (taper week)', dist:3.3,  speed:'6.0 / 8.2 / 5.5' },
+  { wk:17, day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.5 mph — 20 min (fresh legs, taper)', dist:2.2,  speed:'6.5' },
+  { wk:18, day:'Tue', type:'Easy Run',   desc:'Shake-out run @ 6.0 mph — 15 min only. Stay fresh for Saturday.', dist:1.5,  speed:'6.0' },
+  { wk:18, day:'Sat', type:'Time Trial', desc:'GOAL 5K — Set treadmill to 8.4 mph. Run 3.1 mi = 22:08. Push!', dist:3.1,  speed:'8.4 (sub-22 pace)' },
+];
+
+// ── SCHEDULE BUILDER ─────────────────────────────────────────
+function getPhase(wk) { return wk <= 6 ? 1 : wk <= 12 ? 2 : 3; }
+
+function buildSchedule() {
+  const days = [];
+  let liftSession = 0;
+  const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  for (let wk = 1; wk <= 18; wk++) {
+    const phase = getPhase(wk);
+    const hockeyOn = !HOCKEY_BREAK_WEEKS.includes(wk);
+
+    for (let d = 0; d < 7; d++) {
+      const dt = new Date(START_DATE);
+      dt.setDate(START_DATE.getDate() + (wk - 1) * 7 + d);
+      const dow = dt.getDay(); // 0=Sun,1=Mon,...,6=Sat
+
+      // Assign workout type by day of week
+      let type = 'rest';
+      if (dow === 1) type = hockeyOn ? 'hockey' : 'rest'; // Mon
+      if (dow === 2) type = 'run';                          // Tue
+      if (dow === 3) type = 'lift';                         // Wed
+      if (dow === 4) type = hockeyOn ? 'hockey' : 'rest';  // Thu
+      if (dow === 5) type = 'lift';                         // Fri
+      if (dow === 6) type = 'run';                          // Sat
+      if (dow === 0) type = 'lift';                         // Sun
+
+      let meta = {};
+
+      if (type === 'lift') {
+        const wtype = liftSession % 2 === 0 ? 'A' : 'B';
+        meta = { wtype, exercises: LIFT_EXERCISES[phase][wtype], session: liftSession };
+        liftSession++;
+      }
+
+      if (type === 'run') {
+        const dname = dayNames[dt.getDay()];
+        const run = RUNS.find(r => r.wk === wk && r.day === dname);
+        if (run) meta = { ...run };
+      }
+
+      const id = `w${wk}d${d}`;
+      days.push({ id, wk, d, dow, phase, type, date: new Date(dt), meta });
+    }
+  }
+  return days;
+}
+
+const SCHEDULE = buildSchedule();
+
+// ── STORAGE ───────────────────────────────────────────────────
+// Uses localStorage for self-hosted version
+const STORAGE_KEY = 'workout_tracker_data';
+let DATA = {};
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    DATA = raw ? JSON.parse(raw) : {};
+  } catch(e) { DATA = {}; }
+}
+
+function saveData() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(DATA)); } catch(e) {}
+}
+
+// ── HELPERS ───────────────────────────────────────────────────
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DNAMES  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+function fmtDate(dt) {
+  return `${DNAMES[dt.getDay()]}, ${MONTHS[dt.getMonth()]} ${dt.getDate()}`;
+}
+
+function typeIcon(t, meta) {
+  if (t === 'hockey') return '🏒';
+  if (t === 'lift') return '🏋';
+  if (t === 'rest') return '💤';
+  if (t === 'run') return meta && meta.type === 'Time Trial' ? '🏁' : '🏃';
+  return '📅';
+}
+
+function typeLabel(t, meta) {
+  if (t === 'hockey') return 'Hockey';
+  if (t === 'rest') return 'Rest Day';
+  if (t === 'lift') return `Lift — Workout ${meta && meta.wtype || ''}`;
+  if (t === 'run') {
+    if (!meta || !meta.type) return 'Run';
+    return meta.type === 'Time Trial' ? '5K Time Trial' : meta.type;
+  }
+  return t;
+}
+
+function iconClass(t, meta) {
+  if (t === 'hockey') return 'icon-hockey';
+  if (t === 'lift') return 'icon-lift';
+  if (t === 'rest') return 'icon-rest';
+  if (t === 'run') return (meta && meta.type === 'Time Trial') ? 'icon-trial' : 'icon-run';
+  return 'icon-rest';
+}
+
+function badgeStyle(t, meta) {
+  const styles = {
+    hockey: `background:var(--blue-bg);color:var(--blue)`,
+    lift: `background:var(--green-bg);color:var(--green)`,
+    run: `background:var(--purple-bg);color:var(--purple)`,
+    trial: `background:var(--red-bg);color:var(--red)`,
+  };
+  if (t === 'hockey') return styles.hockey;
+  if (t === 'lift') return styles.lift;
+  if (t === 'run') return (meta && meta.type === 'Time Trial') ? styles.trial : styles.run;
+  return '';
+}
+
+function getCurrentWeek() {
+  const now = new Date();
+  const diff = Math.floor((now - START_DATE) / (1000 * 60 * 60 * 24 * 7)) + 1;
+  return Math.min(Math.max(diff, 1), 18);
+}
+
+// ── RENDER LIST ───────────────────────────────────────────────
+function renderList() {
+  const list = document.getElementById('day-list');
+  list.innerHTML = '';
+
+  const workouts = SCHEDULE.filter(d => d.type !== 'rest');
+  const total = workouts.length;
+  const done = workouts.filter(d => DATA[d.id] && DATA[d.id].complete).length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const curWk = getCurrentWeek();
+
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = `${done} of ${total} workouts complete (${pct}%)`;
+  document.getElementById('stat-done').textContent = done;
+  document.getElementById('stat-rem').textContent = total - done;
+  document.getElementById('stat-wk').textContent = curWk;
+
+  let lastPhase = 0;
+
+  SCHEDULE.forEach(day => {
+    if (day.phase !== lastPhase) {
+      lastPhase = day.phase;
+      const ph = document.createElement('div');
+      ph.className = 'phase-header';
+      const wkRange = day.phase === 1 ? 'Weeks 1–6' : day.phase === 2 ? 'Weeks 7–12' : 'Weeks 13–18';
+      ph.textContent = `Phase ${day.phase} — ${wkRange}`;
+      list.appendChild(ph);
+    }
+
+    if (day.type === 'rest') return;
+
+    const saved = DATA[day.id] || {};
+    const isToday = day.date.toDateString() === new Date().toDateString();
+    const card = document.createElement('div');
+    card.className = 'day-card' + (saved.complete ? ' complete' : '');
+    card.innerHTML = `
+      <div class="day-icon ${iconClass(day.type, day.meta)}">${typeIcon(day.type, day.meta)}</div>
+      <div class="day-info">
+        <div class="day-date">${fmtDate(day.date)}${isToday ? ' · <strong style="color:var(--blue)">Today</strong>' : ''}</div>
+        <div class="day-title">${typeLabel(day.type, day.meta)}</div>
+        <div class="day-sub">Week ${day.wk} · Phase ${day.phase}</div>
+      </div>
+      <div class="check-circle ${saved.complete ? 'done' : ''}">${saved.complete ? '✓' : ''}</div>
+    `;
+    card.addEventListener('click', () => showDetail(day.id));
+    list.appendChild(card);
+  });
+}
+
+// ── RENDER DETAIL ─────────────────────────────────────────────
+function showDetail(id) {
+  const day = SCHEDULE.find(d => d.id === id);
+  if (!day) return;
+  const saved = DATA[id] || {};
+  const dv = document.getElementById('detail-view');
+  const lv = document.getElementById('list-view');
+  dv.style.display = 'block';
+  lv.style.display = 'none';
+
+  let html = `
+  <div class="topbar">
+    <button class="back-btn" onclick="showList()">&#8592;</button>
+    <h1>${fmtDate(day.date)}</h1>
+  </div>
+  <div class="detail-hero">
+    <div class="detail-badge" style="${badgeStyle(day.type, day.meta)}">${typeIcon(day.type, day.meta)} ${typeLabel(day.type, day.meta)}</div>
+    <div class="detail-week">Week ${day.wk} · Phase ${day.phase}</div>
+  </div>`;
+
+  // ── HOCKEY ────────────────────────────────────────────────
+  if (day.type === 'hockey') {
+    html += `
+    <div class="section">
+      <div class="section-title">Game night</div>
+      <div class="run-detail-block">
+        Stay explosive in net. Make sure you ate a solid meal 2–3 hours before hitting the ice. Keep hydrated between periods.
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">Notes</div>
+      <div class="ex-row">
+        <div class="input-group"><textarea placeholder="How was the game?" onchange="saveNote(this,'${id}')">${saved.notes||''}</textarea></div>
+      </div>
+    </div>`;
+  }
+
+  // ── LIFT ──────────────────────────────────────────────────
+  if (day.type === 'lift') {
+    const exercises = day.meta.exercises || [];
+    html += `<div class="section"><div class="section-title">Workout ${day.meta.wtype} — Log your sets</div>`;
+
+    exercises.forEach((ex, ei) => {
+      const isDL = ex.sets === 1;
+      const isChins = ex.name.toLowerCase().includes('chin');
+      const exData = (saved.exercises || {})[ei] || {};
+      const setsCount = ex.sets;
+      const repsLabel = isChins ? 'failure' : `${ex.reps} reps`;
+      const setsLabel = `${setsCount} set${setsCount > 1 ? 's' : ''} × ${repsLabel}`;
+
+      html += `<div class="ex-row">
+        <div class="ex-name">${ex.name}</div>
+        <div class="ex-sets">${setsLabel}</div>
+        <div class="input-grid cols2" style="margin-bottom:10px">
+          <div class="input-group">
+            <label>Target weight (lb)</label>
+            <input type="number" inputmode="decimal" placeholder="135" value="${exData.target||''}" data-field="target" data-ex="${ei}" onchange="saveLiftField(this,'${id}')">
+          </div>
+          <div class="input-group">
+            <label>Actual weight (lb)</label>
+            <input type="number" inputmode="decimal" placeholder="what you used" value="${exData.actual||''}" data-field="actual" data-ex="${ei}" onchange="saveLiftField(this,'${id}')">
+          </div>
+        </div>`;
+
+      if (isDL || isChins) {
+        html += `<div class="input-grid cols3">
+          ${Array.from({length: Math.min(setsCount, 3)}, (_, si) => `
+            <div class="input-group">
+              <label>Set ${si+1}</label>
+              <input type="number" inputmode="numeric" placeholder="${isChins ? '—' : ex.reps}" value="${((exData.sets||[])[si])||''}" data-field="set${si}" data-ex="${ei}" onchange="saveLiftField(this,'${id}')">
+            </div>`).join('')}
+        </div>`;
+      } else {
+        html += `<div class="input-grid cols5">
+          ${Array.from({length: setsCount}, (_, si) => `
+            <div class="input-group">
+              <label>Set ${si+1}</label>
+              <input type="number" inputmode="numeric" placeholder="${ex.reps}" value="${((exData.sets||[])[si])||''}" data-field="set${si}" data-ex="${ei}" onchange="saveLiftField(this,'${id}')">
+            </div>`).join('')}
+        </div>`;
+      }
+      html += `</div>`;
+    });
+
+    html += `</div>
+    <div class="section">
+      <div class="section-title">Notes</div>
+      <div class="ex-row">
+        <div class="input-group"><textarea placeholder="How did it feel? Any form notes, stalls..." onchange="saveNote(this,'${id}')">${saved.notes||''}</textarea></div>
+      </div>
+    </div>`;
+
+    // Stall reminder for Phase 2+
+    if (day.phase >= 2) {
+      html += `<div class="highlight-box"><p>🚩 <strong>Stall rule:</strong> if you fail the same weight 2 sessions in a row, note it here and hold the weight next session.</p></div>`;
+    }
+  }
+
+  // ── RUN ───────────────────────────────────────────────────
+  if (day.type === 'run') {
+    const run = day.meta;
+    const isTrialRun = run && run.type === 'Time Trial';
+
+    html += `
+    <div class="section">
+      <div class="section-title">Today's workout</div>
+      <div class="run-detail-block">
+        <strong>Workout:</strong> ${run && run.desc || 'See running log'}<br><br>
+        <strong>Target distance:</strong> ${run && run.dist ? run.dist + ' mi' : '—'}<br>
+        <strong>Target speed:</strong> ${run && run.speed ? run.speed + ' mph' : '—'}
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">Log your run</div>
+      <div class="ex-row">
+        <div class="input-grid cols2">
+          <div class="input-group">
+            <label>Actual distance (mi)</label>
+            <input type="number" inputmode="decimal" step="0.01" placeholder="${run && run.dist || ''}" value="${saved.actualDist||''}" data-field="actualDist" onchange="saveRunField(this,'${id}')">
+          </div>
+          <div class="input-group">
+            <label>Actual speed (mph)</label>
+            <input type="number" inputmode="decimal" step="0.1" placeholder="${typeof (run && run.speed) === 'number' ? run.speed : ''}" value="${saved.actualSpeed||''}" data-field="actualSpeed" onchange="saveRunField(this,'${id}')">
+          </div>
+        </div>
+        ${isTrialRun ? `
+        <div class="input-grid cols2" style="margin-top:8px">
+          <div class="input-group">
+            <label>Finish time (MM:SS)</label>
+            <input type="text" placeholder="e.g. 28:42" value="${saved.finishTime||''}" data-field="finishTime" onchange="saveRunField(this,'${id}')">
+          </div>
+          <div class="input-group">
+            <label>Effort (1–10)</label>
+            <input type="number" inputmode="numeric" min="1" max="10" placeholder="8" value="${saved.effort||''}" data-field="effort" onchange="saveRunField(this,'${id}')">
+          </div>
+        </div>` : `
+        <div class="input-grid cols2" style="margin-top:8px">
+          <div class="input-group">
+            <label>Effort (1–10)</label>
+            <input type="number" inputmode="numeric" min="1" max="10" placeholder="6" value="${saved.effort||''}" data-field="effort" onchange="saveRunField(this,'${id}')">
+          </div>
+        </div>`}
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">Notes</div>
+      <div class="ex-row">
+        <div class="input-group"><textarea placeholder="How did it feel? Splits, pacing notes..." onchange="saveNote(this,'${id}')">${saved.notes||''}</textarea></div>
+      </div>
+    </div>`;
+  }
+
+  html += `
+  <button class="complete-btn ${saved.complete ? 'done' : ''}" id="complete-btn" onclick="toggleComplete('${id}')">
+    ${saved.complete ? 'Marked complete — tap to undo' : 'Mark as complete'}
+  </button>`;
+
+  dv.innerHTML = html;
+}
+
+function showList() {
+  document.getElementById('detail-view').style.display = 'none';
+  document.getElementById('list-view').style.display = 'block';
+  renderList();
+}
+
+// ── SAVE HELPERS ──────────────────────────────────────────────
+function saveLiftField(input, id) {
+  const field = input.dataset.field;
+  const ex = parseInt(input.dataset.ex);
+  if (!DATA[id]) DATA[id] = {};
+  if (!DATA[id].exercises) DATA[id].exercises = {};
+  if (!DATA[id].exercises[ex]) DATA[id].exercises[ex] = { sets: [] };
+  if (field.startsWith('set')) {
+    const si = parseInt(field.replace('set', ''));
+    if (!DATA[id].exercises[ex].sets) DATA[id].exercises[ex].sets = [];
+    DATA[id].exercises[ex].sets[si] = input.value;
+  } else {
+    DATA[id].exercises[ex][field] = input.value;
+  }
+  saveData();
+}
+
+function saveRunField(input, id) {
+  if (!DATA[id]) DATA[id] = {};
+  DATA[id][input.dataset.field] = input.value;
+  saveData();
+}
+
+function saveNote(ta, id) {
+  if (!DATA[id]) DATA[id] = {};
+  DATA[id].notes = ta.value;
+  saveData();
+}
+
+function toggleComplete(id) {
+  if (!DATA[id]) DATA[id] = {};
+  DATA[id].complete = !DATA[id].complete;
+  saveData();
+  const btn = document.getElementById('complete-btn');
+  if (btn) {
+    btn.className = 'complete-btn' + (DATA[id].complete ? ' done' : '');
+    btn.textContent = DATA[id].complete ? 'Marked complete — tap to undo' : 'Mark as complete';
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+loadData();
+renderList();
+</script>
+</body>
+</html>
