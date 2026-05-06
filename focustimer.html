@@ -1,64 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="theme-color" content="#1a1a18"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <link rel="manifest" href="manifest.json"/>
   <title>Focus Timer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #ffffff;
-      --bg-secondary: #f5f4f0;
-      --bg-tertiary: #efefec;
-      --text-primary: #1a1a18;
-      --text-secondary: #6b6b67;
-      --text-tertiary: #a0a09c;
-      --border: rgba(0,0,0,0.12);
-      --border-md: rgba(0,0,0,0.22);
-      --radius-md: 8px;
-      --radius-lg: 12px;
-      --blue: #378ADD;
-      --blue-bg: #E6F1FB;
-      --blue-text: #0C447C;
-      --teal: #1D9E75;
-      --teal-bg: #E1F5EE;
-      --teal-text: #085041;
-      --amber-bg: #FAEEDA;
-      --amber-text: #633806;
-      --coral: #D85A30;
-      --coral-bg: #FAECE7;
-      --coral-text: #712B13;
+      --bg:           #f7f6f2;
+      --card:         #ffffff;
+      --card2:        #fafaf7;
+      --border:       rgba(0,0,0,0.09);
+      --border-md:    rgba(0,0,0,0.18);
+      --text:         #1a1a18;
+      --text-2:       #6b6b65;
+      --text-3:       #a8a8a2;
+      --blue:         #2f7fd4;
+      --blue-bg:      #e8f2fc;
+      --blue-text:    #0d3f72;
+      --teal:         #1a9470;
+      --teal-bg:      #dff4ed;
+      --teal-text:    #0a3d2e;
+      --amber:        #d97c10;
+      --amber-bg:     #fef0d8;
+      --amber-text:   #5c3105;
+      --coral:        #c95430;
+      --coral-bg:     #fce9e2;
+      --coral-text:   #5e2010;
+      --radius:       10px;
+      --radius-lg:    14px;
+      --font:         'DM Sans', system-ui, sans-serif;
+      --mono:         'DM Mono', monospace;
+      --shadow:       0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #1c1c1a;
-        --bg-secondary: #2a2a27;
-        --bg-tertiary: #222220;
-        --text-primary: #f0efe8;
-        --text-secondary: #9a9a94;
-        --text-tertiary: #666660;
-        --border: rgba(255,255,255,0.1);
-        --border-md: rgba(255,255,255,0.2);
-        --blue-bg: #0c2a4a;
-        --blue-text: #85B7EB;
-        --teal-bg: #072e20;
-        --teal-text: #5DCAA5;
-        --amber-bg: #3a2408;
-        --amber-text: #FAC775;
-        --coral-bg: #3a1a0c;
-        --coral-text: #F0997B;
+        --bg:        #161614;
+        --card:      #1e1e1c;
+        --card2:     #242422;
+        --border:    rgba(255,255,255,0.08);
+        --border-md: rgba(255,255,255,0.16);
+        --text:      #eeeee8;
+        --text-2:    #8a8a84;
+        --text-3:    #555550;
+        --blue-bg:   #0d2540;
+        --blue-text: #7db5e8;
+        --teal-bg:   #072a1d;
+        --teal-text: #52c99f;
+        --amber-bg:  #311d04;
+        --amber-text:#f0b05a;
+        --coral-bg:  #301408;
+        --coral-text:#e8916e;
       }
     }
 
     html, body {
-      min-height: 100%;
-      background: var(--bg-tertiary);
-      color: var(--text-primary);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      font-size: 16px;
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 15px;
       line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }
 
     .page {
@@ -66,72 +78,121 @@
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      padding: 2rem 1rem 4rem;
+      padding: 2rem 1.25rem 4rem;
     }
 
     .app {
       width: 100%;
-      max-width: 520px;
+      max-width: 960px;
     }
 
-    h1 {
-      font-size: 18px;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 1.25rem;
-      letter-spacing: -0.3px;
-    }
-
-    /* Tabs */
-    .tabs {
+    /* ── Header ── */
+    .app-header {
       display: flex;
-      gap: 4px;
-      background: var(--bg-secondary);
-      border-radius: var(--radius-lg);
-      padding: 4px;
+      align-items: baseline;
+      gap: 10px;
       margin-bottom: 1.25rem;
     }
 
-    .tab {
-      flex: 1;
-      padding: 9px;
-      font-size: 13px;
+    .app-title {
+      font-size: 17px;
       font-weight: 500;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .app-date {
+      font-size: 13px;
+      color: var(--text-3);
+      font-family: var(--mono);
+    }
+
+    /* ── Two-column layout ── */
+    .columns {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 14px;
+      align-items: start;
+    }
+
+    @media (max-width: 720px) {
+      .columns { grid-template-columns: 1fr; }
+    }
+
+    /* ── Main card (timer / schedule) ── */
+    .main-card {
+      background: var(--card);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── Floating toggle ── */
+    .float-toggle {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 10;
+      display: flex;
+      background: var(--bg);
+      border: 0.5px solid var(--border-md);
+      border-radius: 20px;
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .toggle-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 16px;
       border: none;
       background: transparent;
-      color: var(--text-secondary);
-      border-radius: calc(var(--radius-lg) - 2px);
       cursor: pointer;
-      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-3);
+      transition: background 0.15s, color 0.15s;
     }
 
-    .tab.active {
-      background: var(--bg);
-      color: var(--text-primary);
-      border: 0.5px solid var(--border);
+    .toggle-btn.active {
+      background: var(--card);
+      color: var(--text);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
     }
 
+    .toggle-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ── Panel ── */
     .panel { display: none; }
     .panel.active { display: block; }
 
-    /* Timer Card */
-    .timer-card {
-      background: var(--bg);
-      border: 0.5px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 2rem 1.5rem;
+    /* ── Timer panel ── */
+    .timer-inner {
+      padding: 2rem 2rem 1.75rem;
       text-align: center;
     }
 
     .phase-badge {
       display: inline-block;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
-      padding: 4px 12px;
+      padding: 3px 11px;
       border-radius: 20px;
       margin-bottom: 1.25rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
+      font-family: var(--mono);
     }
 
     .phase-work  { background: var(--blue-bg);  color: var(--blue-text); }
@@ -139,12 +200,12 @@
 
     .ring-wrap {
       position: relative;
-      width: 200px;
-      height: 200px;
-      margin: 0 auto 1.25rem;
+      width: 190px;
+      height: 190px;
+      margin: 0 auto 1.2rem;
     }
 
-    .ring-wrap svg { transform: rotate(-90deg); }
+    .ring-wrap svg { transform: rotate(-90deg); display: block; }
 
     .time-display {
       position: absolute;
@@ -152,17 +213,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 44px;
-      font-weight: 500;
+      font-size: 42px;
+      font-weight: 300;
       letter-spacing: -2px;
       font-variant-numeric: tabular-nums;
-      color: var(--text-primary);
+      font-family: var(--mono);
+      color: var(--text);
     }
 
     .phase-label {
-      font-size: 15px;
-      color: var(--text-secondary);
-      margin-bottom: 1.75rem;
+      font-size: 14px;
+      color: var(--text-2);
+      margin-bottom: 1.5rem;
     }
 
     .controls {
@@ -172,135 +234,124 @@
     }
 
     .btn {
-      padding: 10px 22px;
-      border-radius: var(--radius-md);
-      font-size: 14px;
+      padding: 9px 20px;
+      border-radius: var(--radius);
+      font-size: 13px;
       font-weight: 500;
+      font-family: var(--font);
       cursor: pointer;
       border: 0.5px solid var(--border-md);
       background: transparent;
-      color: var(--text-primary);
+      color: var(--text);
       transition: background 0.12s, opacity 0.12s;
     }
 
-    .btn:hover { background: var(--bg-secondary); }
+    .btn:hover { background: var(--bg); }
 
     .btn.primary {
-      background: var(--text-primary);
+      background: var(--text);
       color: var(--bg);
-      border-color: var(--text-primary);
+      border-color: var(--text);
+      min-width: 88px;
     }
 
     .btn.primary:hover { opacity: 0.82; }
 
-    .cycle-info {
-      margin-top: 1.25rem;
-      font-size: 12px;
-      color: var(--text-tertiary);
+    .cycle-row {
+      margin-top: 1.2rem;
+      font-size: 11px;
+      color: var(--text-3);
+      font-family: var(--mono);
     }
 
     .dots {
       display: flex;
       gap: 5px;
       justify-content: center;
-      margin-top: 7px;
+      margin-top: 6px;
     }
 
     .dot {
-      width: 7px;
-      height: 7px;
+      width: 6px; height: 6px;
       border-radius: 50%;
-      background: var(--border);
+      background: var(--border-md);
       transition: background 0.2s;
     }
+    .dot.on { background: var(--blue); }
 
-    .dot.filled { background: var(--blue); }
+    /* ── Schedule panel ── */
+    .sched-inner { padding: 1.25rem 1.25rem 1.25rem; }
 
-    /* Schedule */
-    .sched-header {
-      background: var(--bg);
+    .sched-now {
+      background: var(--card2);
       border: 0.5px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.25rem 1.5rem;
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
       margin-bottom: 1rem;
     }
 
-    .current-phase-name {
-      font-size: 22px;
+    .sched-now-name {
+      font-size: 20px;
       font-weight: 500;
-      color: var(--text-primary);
+      letter-spacing: -0.4px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .current-time-remaining {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-top: 4px;
+    .sched-now-sub {
+      font-size: 13px;
+      color: var(--text-2);
+      margin-top: 3px;
     }
 
-    .progress-bar-wrap {
-      margin-top: 12px;
-      background: var(--bg-secondary);
+    .pbar-wrap {
+      height: 4px;
+      background: var(--border);
       border-radius: 4px;
-      height: 5px;
       overflow: hidden;
-    }
-
-    .progress-bar {
-      height: 100%;
-      border-radius: 4px;
-      transition: width 30s linear;
-    }
-
-    .next-up {
-      font-size: 12px;
-      color: var(--text-tertiary);
       margin-top: 10px;
     }
 
-    .sched-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    .pbar { height: 100%; border-radius: 4px; transition: width 30s linear; }
+    .next-label { font-size: 11px; color: var(--text-3); margin-top: 8px; font-family: var(--mono); }
+
+    .sched-rows { display: flex; flex-direction: column; gap: 4px; }
 
     .sched-row {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 10px 14px;
-      border-radius: var(--radius-md);
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: var(--radius);
       border: 0.5px solid transparent;
-      transition: all 0.2s;
     }
 
     .sched-row.s-active {
-      background: var(--bg);
-      border-color: var(--border-md);
+      background: var(--card2);
+      border-color: var(--border);
     }
 
-    .sched-row.s-past { opacity: 0.38; }
+    .sched-row.s-past { opacity: 0.35; }
 
     .sched-time {
-      font-size: 12px;
-      color: var(--text-tertiary);
-      min-width: 84px;
-      font-variant-numeric: tabular-nums;
-      flex-shrink: 0;
+      font-size: 11px;
+      color: var(--text-3);
+      min-width: 78px;
+      font-family: var(--mono);
     }
 
-    .sched-name {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-primary);
-      flex: 1;
-    }
+    .sched-name { font-size: 13px; font-weight: 500; flex: 1; }
 
     .sched-tag {
-      font-size: 11px;
-      font-weight: 500;
-      padding: 2px 8px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
       border-radius: 20px;
-      flex-shrink: 0;
+      font-family: var(--mono);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
 
     .tag-work   { background: var(--blue-bg);   color: var(--blue-text); }
@@ -308,249 +359,595 @@
     .tag-warmup { background: var(--amber-bg);  color: var(--amber-text); }
     .tag-lunch  { background: var(--coral-bg);  color: var(--coral-text); }
 
-    .pulse-dot {
-      width: 8px;
-      height: 8px;
+    .pulse {
+      width: 7px; height: 7px;
       border-radius: 50%;
       background: var(--blue);
       flex-shrink: 0;
-      animation: pulse 1.8s ease-in-out infinite;
+      animation: blink 1.8s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.65)} }
+
+    /* ── To-do card ── */
+    .todo-card {
+      background: var(--card);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 480px;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.45; transform: scale(0.65); }
+    .todo-header {
+      padding: 1.1rem 1.25rem 0.75rem;
+      border-bottom: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
-    @media (max-width: 480px) {
-      .time-display { font-size: 38px; }
-      .controls { flex-wrap: wrap; }
-      .btn { padding: 9px 16px; }
+    .todo-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-2);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-family: var(--mono);
+    }
+
+    .todo-count {
+      font-size: 11px;
+      color: var(--text-3);
+      font-family: var(--mono);
+    }
+
+    .todo-add {
+      display: flex;
+      gap: 6px;
+      padding: 0.75rem 1.1rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .todo-input {
+      flex: 1;
+      padding: 7px 10px;
+      border-radius: var(--radius);
+      border: 0.5px solid var(--border-md);
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .todo-input::placeholder { color: var(--text-3); }
+    .todo-input:focus { border-color: var(--blue); }
+
+    .add-btn {
+      width: 32px; height: 32px;
+      border-radius: var(--radius);
+      border: 0.5px solid var(--border-md);
+      background: var(--text);
+      color: var(--bg);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      line-height: 1;
+      flex-shrink: 0;
+      transition: opacity 0.12s;
+    }
+
+    .add-btn:hover { opacity: 0.8; }
+
+    .todo-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.5rem 0.75rem;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 7px 6px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      group: 'item';
+      transition: background 0.1s;
+    }
+
+    .todo-item:hover { background: var(--bg); }
+
+    .todo-check {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border-md);
+      flex-shrink: 0;
+      margin-top: 2px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .todo-item.done .todo-check {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .todo-check-tick {
+      display: none;
+      width: 8px; height: 8px;
+    }
+
+    .todo-item.done .todo-check-tick { display: block; }
+
+    .todo-text {
+      flex: 1;
+      font-size: 13px;
+      color: var(--text);
+      transition: color 0.15s;
+      word-break: break-word;
+      padding-top: 1px;
+    }
+
+    .todo-item.done .todo-text {
+      color: var(--text-3);
+      text-decoration: line-through;
+      text-decoration-color: var(--text-3);
+    }
+
+    .todo-del {
+      width: 20px; height: 20px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: var(--text-3);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transition: opacity 0.1s, background 0.1s;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .todo-item:hover .todo-del { opacity: 1; }
+    .todo-del:hover { background: var(--border); color: var(--coral); }
+
+    .todo-empty {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-3);
+      font-size: 13px;
+    }
+
+    .todo-footer {
+      padding: 0.6rem 1.1rem;
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .todo-done-count { font-size: 11px; color: var(--text-3); font-family: var(--mono); }
+
+    .clear-btn {
+      font-size: 11px;
+      color: var(--text-3);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-family: var(--mono);
+      transition: background 0.1s, color 0.1s;
+    }
+
+    .clear-btn:hover { background: var(--coral-bg); color: var(--coral-text); }
+
+    /* ── Install banner ── */
+    #install-banner {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      background: var(--card);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .install-text { font-size: 13px; color: var(--text-2); flex: 1; }
+
+    .install-btn {
+      padding: 7px 16px;
+      border-radius: var(--radius);
+      border: 0.5px solid var(--border-md);
+      background: var(--text);
+      color: var(--bg);
+      font-size: 12px;
+      font-weight: 500;
+      font-family: var(--font);
+      cursor: pointer;
+    }
+
+    .install-dismiss {
+      background: none;
+      border: none;
+      color: var(--text-3);
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      padding: 2px 4px;
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <div class="app">
+<div class="page">
+  <div class="app">
 
-      <div class="tabs">
-        <button class="tab active" onclick="switchTab('timer')">90/30 Timer</button>
-        <button class="tab" onclick="switchTab('schedule')">Daily Schedule</button>
-      </div>
+    <div class="app-header">
+      <span class="app-title">Focus Timer</span>
+      <span class="app-date" id="header-date"></span>
+    </div>
 
-      <!-- Timer Panel -->
-      <div id="timer-panel" class="panel active">
-        <div class="timer-card">
-          <div class="phase-badge phase-work" id="t-badge">FOCUS</div>
-          <div class="ring-wrap">
-            <svg width="200" height="200" viewBox="0 0 200 200">
-              <circle cx="100" cy="100" r="88" fill="none" stroke="var(--border)" stroke-width="7"/>
-              <circle id="ring" cx="100" cy="100" r="88" fill="none" stroke="#378ADD"
-                stroke-width="7" stroke-linecap="round"
-                stroke-dasharray="553" stroke-dashoffset="0"
-                style="transition: stroke-dashoffset 1s linear, stroke 0.4s;"/>
+    <!-- Install banner -->
+    <div id="install-banner">
+      <span class="install-text">Install as a Windows app for quick access from the taskbar</span>
+      <button class="install-btn" id="install-btn">Install</button>
+      <button class="install-dismiss" id="install-dismiss" title="Dismiss">×</button>
+    </div>
+
+    <div class="columns">
+
+      <!-- Left: main card -->
+      <div class="main-card">
+
+        <!-- Floating toggle -->
+        <div class="float-toggle">
+          <button class="toggle-btn active" id="tog-timer" onclick="switchTab('timer')" title="Timer">
+            <svg viewBox="0 0 24 24">
+              <!-- stopwatch -->
+              <circle cx="12" cy="13" r="7"/>
+              <path d="M12 6V3"/>
+              <path d="M9 3h6"/>
+              <path d="M12 9.5v4l2.5 2.5" stroke-linecap="round"/>
+              <path d="M19.5 7L21 5.5" stroke-linecap="round"/>
             </svg>
-            <div class="time-display" id="t-time">90:00</div>
-          </div>
-          <div class="phase-label" id="t-label">Focus Block</div>
-          <div class="controls">
-            <button class="btn" onclick="resetTimer()">Reset</button>
-            <button class="btn primary" id="t-btn" onclick="toggleTimer()">Start</button>
-            <button class="btn" onclick="skipPhase()">Skip</button>
-          </div>
-          <div class="cycle-info">
-            <span id="cycle-count">Cycle 1</span>
-            <div class="dots">
-              <div class="dot filled" id="d0"></div>
-              <div class="dot" id="d1"></div>
+          </button>
+          <button class="toggle-btn" id="tog-sched" onclick="switchTab('schedule')" title="Schedule">
+            <svg viewBox="0 0 24 24">
+              <!-- calendar -->
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <path d="M16 2v4M8 2v4M3 10h18"/>
+              <circle cx="8" cy="15" r="1" fill="currentColor" stroke="none"/>
+              <circle cx="12" cy="15" r="1" fill="currentColor" stroke="none"/>
+              <circle cx="16" cy="15" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Timer panel -->
+        <div id="timer-panel" class="panel active">
+          <div class="timer-inner">
+            <div style="height:16px"></div><!-- space for floating toggle -->
+            <div class="phase-badge phase-work" id="t-badge">FOCUS</div>
+            <div class="ring-wrap">
+              <svg width="190" height="190" viewBox="0 0 190 190">
+                <circle cx="95" cy="95" r="83" fill="none" stroke="var(--border)" stroke-width="6"/>
+                <circle id="ring" cx="95" cy="95" r="83" fill="none" stroke="#2f7fd4"
+                  stroke-width="6" stroke-linecap="round"
+                  stroke-dasharray="521.5" stroke-dashoffset="0"
+                  style="transition:stroke-dashoffset 1s linear,stroke 0.4s;"/>
+              </svg>
+              <div class="time-display" id="t-time">90:00</div>
+            </div>
+            <div class="phase-label" id="t-label">Focus Block</div>
+            <div class="controls">
+              <button class="btn" onclick="resetTimer()">Reset</button>
+              <button class="btn primary" id="t-btn" onclick="toggleTimer()">Start</button>
+              <button class="btn" onclick="skipPhase()">Skip</button>
+            </div>
+            <div class="cycle-row">
+              <span id="cycle-count">Cycle 1</span>
+              <div class="dots">
+                <div class="dot on" id="d0"></div>
+                <div class="dot" id="d1"></div>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Schedule panel -->
+        <div id="schedule-panel" class="panel">
+          <div class="sched-inner">
+            <div style="height:20px"></div>
+            <div class="sched-now" id="sched-now"></div>
+            <div class="sched-rows" id="sched-rows"></div>
+          </div>
+        </div>
+
+      </div><!-- /main-card -->
+
+      <!-- Right: To-do -->
+      <div class="todo-card">
+        <div class="todo-header">
+          <span class="todo-title">To-do</span>
+          <span class="todo-count" id="todo-count">0 tasks</span>
+        </div>
+        <div class="todo-add">
+          <input class="todo-input" id="todo-input" type="text" placeholder="Add a task…" maxlength="200"/>
+          <button class="add-btn" onclick="addTodo()" title="Add">+</button>
+        </div>
+        <div class="todo-list" id="todo-list"></div>
+        <div class="todo-footer">
+          <span class="todo-done-count" id="todo-done-count"></span>
+          <button class="clear-btn" onclick="clearDone()">Clear done</button>
+        </div>
       </div>
 
-      <!-- Schedule Panel -->
-      <div id="schedule-panel" class="panel">
-        <div class="sched-header" id="sched-header"></div>
-        <div class="sched-list" id="sched-list"></div>
-      </div>
-    </div>
+    </div><!-- /columns -->
   </div>
+</div>
 
-  <script>
-    /* ── Timer ── */
-    const CIRCUMFERENCE = 2 * Math.PI * 88;
+<script>
+/* ════════════════════════════════════════
+   HEADER DATE
+════════════════════════════════════════ */
+function updateHeaderDate() {
+  const d = new Date();
+  document.getElementById('header-date').textContent =
+    d.toLocaleDateString('en-US', { weekday:'long', month:'short', day:'numeric' });
+}
+updateHeaderDate();
 
-    const PHASES = [
-      { name: "Focus Block", duration: 90 * 60, type: "work" },
-      { name: "Break",       duration: 30 * 60, type: "break" }
-    ];
+/* ════════════════════════════════════════
+   TAB TOGGLE
+════════════════════════════════════════ */
+function switchTab(tab) {
+  ['timer','schedule'].forEach(t => {
+    document.getElementById(t+'-panel').classList.toggle('active', t === tab);
+    document.getElementById('tog-'+t).classList.toggle('active', t === tab);
+  });
+  if (tab === 'schedule') renderSchedule();
+}
 
-    let current = 0, remaining = PHASES[0].duration;
-    let running = false, timerInterval = null, cycles = 0;
+/* ════════════════════════════════════════
+   TIMER
+════════════════════════════════════════ */
+const CIRC = 2 * Math.PI * 83;
+const PHASES = [
+  { name:'Focus Block', duration: 90*60, type:'work'  },
+  { name:'Break',       duration: 30*60, type:'break' }
+];
 
-    function fmt(s) {
-      return String(Math.floor(s / 60)).padStart(2,'0') + ':' + String(s % 60).padStart(2,'0');
-    }
+let cur=0, rem=PHASES[0].duration, running=false, tInterval=null, cycles=0;
 
-    function updateTimer() {
-      const p = PHASES[current];
-      const offset = CIRCUMFERENCE * (1 - remaining / p.duration);
-      const ring = document.getElementById('ring');
-      ring.style.strokeDashoffset = offset;
-      ring.style.stroke = p.type === 'work' ? '#378ADD' : '#1D9E75';
-      document.getElementById('t-time').textContent = fmt(remaining);
-      const badge = document.getElementById('t-badge');
-      badge.textContent = p.type === 'work' ? 'FOCUS' : 'BREAK';
-      badge.className = 'phase-badge ' + (p.type === 'work' ? 'phase-work' : 'phase-break');
-      document.getElementById('t-label').textContent = p.name;
-      document.getElementById('d0').className = 'dot' + (current === 0 ? ' filled' : '');
-      document.getElementById('d1').className = 'dot' + (current === 1 ? ' filled' : '');
-      document.getElementById('cycle-count').textContent = 'Cycle ' + (cycles + 1);
-      document.title = fmt(remaining) + ' — ' + p.name;
-    }
+function fmt(s) {
+  return String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+}
 
-    function tick() {
-      if (remaining > 0) {
-        remaining--;
-        updateTimer();
-      } else {
-        current = (current + 1) % PHASES.length;
-        if (current === 0) cycles++;
-        remaining = PHASES[current].duration;
-        updateTimer();
-      }
-    }
+function updateTimer() {
+  const p = PHASES[cur];
+  document.getElementById('ring').style.strokeDashoffset = CIRC * (1 - rem/p.duration);
+  document.getElementById('ring').style.stroke = p.type==='work' ? '#2f7fd4' : '#1a9470';
+  document.getElementById('t-time').textContent = fmt(rem);
+  const badge = document.getElementById('t-badge');
+  badge.textContent = p.type==='work' ? 'FOCUS' : 'BREAK';
+  badge.className = 'phase-badge ' + (p.type==='work' ? 'phase-work' : 'phase-break');
+  document.getElementById('t-label').textContent = p.name;
+  document.getElementById('d0').className = 'dot' + (cur===0 ? ' on' : '');
+  document.getElementById('d1').className = 'dot' + (cur===1 ? ' on' : '');
+  document.getElementById('cycle-count').textContent = 'Cycle ' + (cycles+1);
+  document.title = fmt(rem) + ' · ' + p.name;
+}
 
-    function toggleTimer() {
-      if (running) {
-        clearInterval(timerInterval);
-        running = false;
-        document.getElementById('t-btn').textContent = 'Resume';
-      } else {
-        timerInterval = setInterval(tick, 1000);
-        running = true;
-        document.getElementById('t-btn').textContent = 'Pause';
-      }
-    }
-
-    function resetTimer() {
-      clearInterval(timerInterval);
-      running = false; current = 0; cycles = 0;
-      remaining = PHASES[0].duration;
-      document.getElementById('t-btn').textContent = 'Start';
-      updateTimer();
-    }
-
-    function skipPhase() {
-      current = (current + 1) % PHASES.length;
-      if (current === 0) cycles++;
-      remaining = PHASES[current].duration;
-      updateTimer();
-    }
-
+function tick() {
+  if (rem > 0) { rem--; updateTimer(); }
+  else {
+    cur = (cur+1) % PHASES.length;
+    if (cur===0) cycles++;
+    rem = PHASES[cur].duration;
     updateTimer();
+  }
+}
 
-    /* ── Schedule ── */
-    const SCHEDULE = [
-      { name: "Warm Up", start: [9,0],   end: [9,30],  type: "warmup" },
-      { name: "Block 1", start: [9,30],  end: [11,0],  type: "work"   },
-      { name: "Break",   start: [11,0],  end: [11,30], type: "break"  },
-      { name: "Block 2", start: [11,30], end: [13,0],  type: "work"   },
-      { name: "Lunch",   start: [13,0],  end: [14,0],  type: "lunch"  },
-      { name: "Block 3", start: [14,0],  end: [15,30], type: "work"   },
-      { name: "Break",   start: [15,30], end: [16,0],  type: "break"  },
-      { name: "Block 4", start: [16,0],  end: [17,0],  type: "work"   },
-    ];
+function toggleTimer() {
+  if (running) {
+    clearInterval(tInterval); running=false;
+    document.getElementById('t-btn').textContent = 'Resume';
+  } else {
+    tInterval = setInterval(tick, 1000); running=true;
+    document.getElementById('t-btn').textContent = 'Pause';
+  }
+}
 
-    const TAG_CLASSES = { work:'tag-work', break:'tag-break', warmup:'tag-warmup', lunch:'tag-lunch' };
-    const TAG_LABELS  = { work:'Focus', break:'Break', warmup:'Warm up', lunch:'Lunch' };
-    const BAR_COLORS  = { work:'#378ADD', break:'#1D9E75', warmup:'#EF9F27', lunch:'#D85A30' };
+function resetTimer() {
+  clearInterval(tInterval); running=false; cur=0; cycles=0; rem=PHASES[0].duration;
+  document.getElementById('t-btn').textContent = 'Start';
+  updateTimer();
+}
 
-    function toMins(h, m) { return h * 60 + m; }
+function skipPhase() {
+  cur = (cur+1) % PHASES.length;
+  if (cur===0) cycles++;
+  rem = PHASES[cur].duration;
+  updateTimer();
+}
 
-    function fmtTime(h, m) {
-      const ampm = h < 12 ? 'am' : 'pm';
-      const hh = h > 12 ? h - 12 : (h === 0 ? 12 : h);
-      return hh + (m > 0 ? ':' + String(m).padStart(2,'0') : '') + ampm;
-    }
+updateTimer();
 
-    function fmtLeft(mins) {
-      if (mins <= 0) return 'ending now';
-      if (mins >= 60) {
-        const h = Math.floor(mins / 60), m = mins % 60;
-        return h + 'h' + (m ? ' ' + m + 'm' : '') + ' left';
-      }
-      return mins + 'm left';
-    }
+/* ════════════════════════════════════════
+   SCHEDULE
+════════════════════════════════════════ */
+const SCHED = [
+  { name:'Warm Up', start:[9,0],   end:[9,30],  type:'warmup' },
+  { name:'Block 1', start:[9,30],  end:[11,0],  type:'work'   },
+  { name:'Break',   start:[11,0],  end:[11,30], type:'break'  },
+  { name:'Block 2', start:[11,30], end:[13,0],  type:'work'   },
+  { name:'Lunch',   start:[13,0],  end:[14,0],  type:'lunch'  },
+  { name:'Block 3', start:[14,0],  end:[15,30], type:'work'   },
+  { name:'Break',   start:[15,30], end:[16,0],  type:'break'  },
+  { name:'Block 4', start:[16,0],  end:[17,0],  type:'work'   },
+];
 
-    function renderSchedule() {
-      const now = new Date();
-      const nowMins = toMins(now.getHours(), now.getMinutes());
-      let activeIdx = -1;
-      for (let i = 0; i < SCHEDULE.length; i++) {
-        const s = SCHEDULE[i];
-        if (nowMins >= toMins(...s.start) && nowMins < toMins(...s.end)) { activeIdx = i; break; }
-      }
+const BAR = { work:'#2f7fd4', break:'#1a9470', warmup:'#d97c10', lunch:'#c95430' };
+const TAG_CLS = { work:'tag-work', break:'tag-break', warmup:'tag-warmup', lunch:'tag-lunch' };
+const TAG_LBL = { work:'Focus', break:'Break', warmup:'Warm up', lunch:'Lunch' };
 
-      const header = document.getElementById('sched-header');
-      if (activeIdx === -1) {
-        const upcoming = SCHEDULE.find(s => toMins(...s.start) > nowMins);
-        if (upcoming) {
-          const minsUntil = toMins(...upcoming.start) - nowMins;
-          header.innerHTML = `<div class="current-phase-name">Before schedule</div>
-            <div class="current-time-remaining">${upcoming.name} starts in ${minsUntil}m</div>`;
-        } else {
-          header.innerHTML = `<div class="current-phase-name">Day complete</div>
-            <div class="current-time-remaining">All blocks finished — great work today</div>`;
-        }
-      } else {
-        const s = SCHEDULE[activeIdx];
-        const totalMins = toMins(...s.end) - toMins(...s.start);
-        const elapsedMins = nowMins - toMins(...s.start);
-        const leftMins = toMins(...s.end) - nowMins;
-        const pct = Math.min(100, Math.round((elapsedMins / totalMins) * 100));
-        const next = SCHEDULE[activeIdx + 1];
-        header.innerHTML = `
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div class="pulse-dot"></div>
-            <div class="current-phase-name">${s.name}</div>
-          </div>
-          <div class="current-time-remaining">${fmtLeft(leftMins)} &mdash; until ${fmtTime(...s.end)}</div>
-          <div class="progress-bar-wrap">
-            <div class="progress-bar" style="width:${pct}%;background:${BAR_COLORS[s.type]}"></div>
-          </div>
-          ${next
-            ? `<div class="next-up">Next: ${next.name} at ${fmtTime(...next.start)}</div>`
-            : `<div class="next-up">Last block of the day</div>`}`;
-      }
+function toM(h,m) { return h*60+m; }
+function fmtT(h,m) {
+  const ap = h<12?'am':'pm', hh = h>12?h-12:(h===0?12:h);
+  return hh + (m>0?':'+String(m).padStart(2,'0'):'') + ap;
+}
+function fmtLeft(mins) {
+  if (mins<=0) return 'ending now';
+  if (mins>=60) { const h=Math.floor(mins/60),m=mins%60; return h+'h'+(m?' '+m+'m':'')+' left'; }
+  return mins+'m left';
+}
 
-      const list = document.getElementById('sched-list');
-      list.innerHTML = SCHEDULE.map((s, i) => {
-        const isPast   = nowMins >= toMins(...s.end);
-        const isActive = i === activeIdx;
-        const cls = isActive ? 's-active' : (isPast ? 's-past' : '');
-        return `<div class="sched-row ${cls}">
-          ${isActive
-            ? '<div class="pulse-dot"></div>'
-            : '<div style="width:8px;flex-shrink:0"></div>'}
-          <span class="sched-time">${fmtTime(...s.start)} – ${fmtTime(...s.end)}</span>
-          <span class="sched-name">${s.name}</span>
-          <span class="sched-tag ${TAG_CLASSES[s.type]}">${TAG_LABELS[s.type]}</span>
-        </div>`;
-      }).join('');
-    }
+function renderSchedule() {
+  const now = new Date(), nm = toM(now.getHours(), now.getMinutes());
+  let ai = -1;
+  SCHED.forEach((s,i) => { if (nm>=toM(...s.start) && nm<toM(...s.end)) ai=i; });
 
-    renderSchedule();
-    setInterval(renderSchedule, 30000);
+  const nowEl = document.getElementById('sched-now');
+  if (ai===-1) {
+    const up = SCHED.find(s => toM(...s.start) > nm);
+    nowEl.innerHTML = up
+      ? `<div class="sched-now-name">${up.name}</div>
+         <div class="sched-now-sub">Starts in ${toM(...up.start)-nm}m</div>`
+      : `<div class="sched-now-name">Day complete</div>
+         <div class="sched-now-sub">All blocks finished</div>`;
+  } else {
+    const s = SCHED[ai];
+    const tot = toM(...s.end)-toM(...s.start), el = nm-toM(...s.start), left = toM(...s.end)-nm;
+    const pct = Math.min(100, Math.round(el/tot*100));
+    const next = SCHED[ai+1];
+    nowEl.innerHTML = `
+      <div class="sched-now-name">
+        <div class="pulse"></div>${s.name}
+      </div>
+      <div class="sched-now-sub">${fmtLeft(left)} — until ${fmtT(...s.end)}</div>
+      <div class="pbar-wrap"><div class="pbar" style="width:${pct}%;background:${BAR[s.type]}"></div></div>
+      ${next ? `<div class="next-label">next → ${next.name} at ${fmtT(...next.start)}</div>` : '<div class="next-label">last block</div>'}`;
+  }
 
-    /* ── Tabs ── */
-    function switchTab(tab) {
-      document.querySelectorAll('.tab').forEach((t, i) => {
-        t.classList.toggle('active', tab === 'timer' ? i === 0 : i === 1);
-      });
-      document.getElementById('timer-panel').classList.toggle('active', tab === 'timer');
-      document.getElementById('schedule-panel').classList.toggle('active', tab === 'schedule');
-    }
-  </script>
+  document.getElementById('sched-rows').innerHTML = SCHED.map((s,i) => {
+    const past = nm >= toM(...s.end), active = i===ai;
+    const cls = active ? 's-active' : (past ? 's-past' : '');
+    return `<div class="sched-row ${cls}">
+      ${active ? '<div class="pulse"></div>' : '<div style="width:7px;flex-shrink:0"></div>'}
+      <span class="sched-time">${fmtT(...s.start)} – ${fmtT(...s.end)}</span>
+      <span class="sched-name">${s.name}</span>
+      <span class="sched-tag ${TAG_CLS[s.type]}">${TAG_LBL[s.type]}</span>
+    </div>`;
+  }).join('');
+}
+
+renderSchedule();
+setInterval(renderSchedule, 30000);
+
+/* ════════════════════════════════════════
+   TO-DO  (persisted via localStorage)
+════════════════════════════════════════ */
+let todos = JSON.parse(localStorage.getItem('focus-todos') || '[]');
+
+function saveTodos() { localStorage.setItem('focus-todos', JSON.stringify(todos)); }
+
+function renderTodos() {
+  const list = document.getElementById('todo-list');
+  const total = todos.length, done = todos.filter(t=>t.done).length;
+  document.getElementById('todo-count').textContent = total === 1 ? '1 task' : total + ' tasks';
+  document.getElementById('todo-done-count').textContent = done > 0 ? done + ' / ' + total + ' done' : '';
+
+  if (todos.length === 0) {
+    list.innerHTML = '<div class="todo-empty">Nothing here yet.<br>Add a task above.</div>';
+    return;
+  }
+
+  list.innerHTML = todos.map((t, i) => `
+    <div class="todo-item ${t.done?'done':''}" onclick="toggleTodo(${i})">
+      <div class="todo-check">
+        <svg class="todo-check-tick" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round">
+          <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+        </svg>
+      </div>
+      <span class="todo-text">${escHtml(t.text)}</span>
+      <button class="todo-del" onclick="deleteTodo(event,${i})" title="Delete">
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <line x1="1" y1="1" x2="11" y2="11"/><line x1="11" y1="1" x2="1" y2="11"/>
+        </svg>
+      </button>
+    </div>`).join('');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function addTodo() {
+  const input = document.getElementById('todo-input');
+  const text = input.value.trim();
+  if (!text) return;
+  todos.unshift({ text, done: false });
+  saveTodos(); renderTodos();
+  input.value = '';
+  input.focus();
+}
+
+function toggleTodo(i) {
+  todos[i].done = !todos[i].done;
+  saveTodos(); renderTodos();
+}
+
+function deleteTodo(e, i) {
+  e.stopPropagation();
+  todos.splice(i, 1);
+  saveTodos(); renderTodos();
+}
+
+function clearDone() {
+  todos = todos.filter(t => !t.done);
+  saveTodos(); renderTodos();
+}
+
+document.getElementById('todo-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') addTodo();
+});
+
+renderTodos();
+
+/* ════════════════════════════════════════
+   PWA — Service Worker + Install Prompt
+════════════════════════════════════════ */
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(console.warn);
+}
+
+let deferredPrompt = null;
+const banner = document.getElementById('install-banner');
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  banner.style.display = 'flex';
+});
+
+document.getElementById('install-btn').addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  banner.style.display = 'none';
+});
+
+document.getElementById('install-dismiss').addEventListener('click', () => {
+  banner.style.display = 'none';
+});
+
+window.addEventListener('appinstalled', () => { banner.style.display = 'none'; });
+</script>
 </body>
 </html>
