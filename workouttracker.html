@@ -153,21 +153,22 @@
 
 <script>
 // ── CONFIG — edit these to change the program ─────────────────
-const START_DATE = new Date(2026, 4, 4); // May 5 2025 (Monday) — month is 0-indexed
-const HOCKEY_BREAK_WEEKS = [4, 5, 6]; // weeks with no hockey
+const START_DATE = new Date(2026, 4, 12); // May 5 2025 (Monday) — month is 0-indexed
+const HOCKEY_BREAK_WEEKS = [3, 4, 5]; // weeks with no hockey
 
 // Lifting structure per phase and workout type
 const LIFT_EXERCISES = {
   1: {
     A: [
-      { name: 'Squat', sets: 5, reps: 5 },
-      { name: 'Bench Press', sets: 5, reps: 5 },
-      { name: 'Deadlift', sets: 1, reps: 5 },
+      { name: 'Goblet Squat', sets: 5, reps: 8 },
+      { name: 'DB Bench Press', sets: 5, reps: 8 },
+      { name: 'DB Romanian Deadlift', sets: 4, reps: 8 },
     ],
     B: [
-      { name: 'Squat', sets: 5, reps: 5 },
-      { name: 'Overhead Press', sets: 5, reps: 5 },
-      { name: 'Deadlift', sets: 1, reps: 5 },
+      { name: 'Bulgarian Split Squat', sets: 4, reps: 6 },
+      { name: 'DB Shoulder Press', sets: 5, reps: 8 },
+      { name: 'Leg Curl', sets: 3, reps: 12 },
+      { name: 'Cable Pull-Through', sets: 3, reps: 12 },
     ],
   },
   2: {
