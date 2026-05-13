@@ -201,31 +201,31 @@ const LIFT_EXERCISES = {
 // day: 'Tue' or 'Sat', type: Walk/Run | Easy Run | Tempo Run | Intervals | Time Trial
 const RUNS = [
   // Phase 1
-  { wk:1,  day:'Tue', type:'Walk/Run',   desc:'2 min @ 5.5 mph / 2 min @ 3.0 mph — 8 rounds (32 min total)', dist:1.8,  speed:'5.5 / 3.0' },
-  { wk:1,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 5.5 mph — 20 min', dist:1.83, speed:'5.5' },
-  { wk:2,  day:'Tue', type:'Walk/Run',   desc:'3 min @ 5.5 mph / 2 min @ 3.0 mph — 6 rounds (30 min total)', dist:1.9,  speed:'5.5 / 3.0' },
-  { wk:2,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 5.5 mph — 22 min', dist:2.0,  speed:'5.5' },
-  { wk:3,  day:'Tue', type:'Walk/Run',   desc:'4 min @ 5.8 mph / 1 min @ 3.0 mph — 6 rounds (30 min total)', dist:2.2,  speed:'5.8 / 3.0' },
-  { wk:3,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 5.8 mph — 22 min', dist:2.1,  speed:'5.8' },
-  { wk:4,  day:'Tue', type:'Easy Run',   desc:'Continuous @ 6.0 mph — 25 min', dist:2.5,  speed:'6.0' },
-  { wk:4,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.0 mph — 25 min', dist:2.5,  speed:'6.0' },
-  { wk:5,  day:'Tue', type:'Tempo Run',  desc:'5 min @ 5.5 → 15 min @ 6.5 → 5 min @ 5.0 mph', dist:2.6,  speed:'5.5 / 6.5 / 5.0' },
-  { wk:5,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.0 mph — 28 min', dist:2.8,  speed:'6.0' },
-  { wk:6,  day:'Tue', type:'Tempo Run',  desc:'5 min @ 5.5 → 20 min @ 6.5 → 5 min @ 5.0 mph', dist:3.0,  speed:'5.5 / 6.5 / 5.0' },
-  { wk:6,  day:'Sat', type:'Time Trial', desc:'5K Time Trial — run 3.1 mi at best effort. Target: sub-30:00 (~6.2 mph)', dist:3.1,  speed:'Best effort' },
+  { wk:1,  day:'Tue', type:'Easy Run',   desc:'Continuous @ 6.2 mph — 30 min', dist:3.1,  speed:'6.2' },
+  { wk:1,  day:'Sat', type:'Tempo Run',  desc:'5 min @ 5.5 → 20 min @ 6.8 → 5 min @ 5.0 mph', dist:3.2,  speed:'5.5 / 6.8 / 5.0' },
+  { wk:2,  day:'Tue', type:'Intervals',  desc:'5 min @ 5.5 → 8x (1.5 min @ 7.5 / 1.5 min @ 3.5) → 5 min @ 5.0', dist:3.0,  speed:'7.5 / 3.5' },
+  { wk:2,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.2 mph — 32 min', dist:3.3,  speed:'6.2' },
+  { wk:3,  day:'Tue', type:'Tempo Run',  desc:'5 min @ 5.5 → 23 min @ 7.0 → 5 min @ 5.0 mph', dist:3.4,  speed:'5.5 / 7.0 / 5.0' },
+  { wk:3,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.5 mph — 30 min', dist:3.25, speed:'6.5' },
+  { wk:4, day:'Tue', type:'Intervals',  desc:'5 min @ 5.5 → 6x (2 min @ 7.8 / 2 min @ 3.5) → 5 min @ 5.0', dist:3.1,  speed:'7.8 / 3.5' },
+  { wk:4, day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.5 mph — 32 min', dist:3.47, speed:'6.5' },
+  { wk:5, day:'Tue', type:'Tempo Run',  desc:'5 min @ 5.5 → 25 min @ 7.2 → 5 min @ 5.0 mph', dist:3.7,  speed:'5.5 / 7.2 / 5.0' },
+  { wk:5, day:'Sat', type:'Intervals',  desc:'5 min @ 5.5 → 5x (3 min @ 7.8 / 2 min @ 3.5) → 5 min @ 5.0', dist:3.2,  speed:'7.8 / 3.5' },
+  { wk:6, day:'Tue', type:'Easy Run',   desc:'Continuous @ 6.5 mph — 30 min (shake out legs)', dist:3.25, speed:'6.5' },
+  { wk:6, day:'Sat', type:'Time Trial', desc:'5K Time Trial — run 3.1 mi at best effort. Target: sub-25:00 (~7.4 mph)', dist:3.1,  speed:'Best effort' },
   // Phase 2
-  { wk:7,  day:'Tue', type:'Easy Run',   desc:'Continuous @ 6.2 mph — 30 min', dist:3.1,  speed:'6.2' },
-  { wk:7,  day:'Sat', type:'Tempo Run',  desc:'5 min @ 5.5 → 20 min @ 6.8 → 5 min @ 5.0 mph', dist:3.2,  speed:'5.5 / 6.8 / 5.0' },
-  { wk:8,  day:'Tue', type:'Intervals',  desc:'5 min @ 5.5 → 8x (1.5 min @ 7.5 / 1.5 min @ 3.5) → 5 min @ 5.0', dist:3.0,  speed:'7.5 / 3.5' },
-  { wk:8,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.2 mph — 32 min', dist:3.3,  speed:'6.2' },
-  { wk:9,  day:'Tue', type:'Tempo Run',  desc:'5 min @ 5.5 → 23 min @ 7.0 → 5 min @ 5.0 mph', dist:3.4,  speed:'5.5 / 7.0 / 5.0' },
-  { wk:9,  day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.5 mph — 30 min', dist:3.25, speed:'6.5' },
-  { wk:10, day:'Tue', type:'Intervals',  desc:'5 min @ 5.5 → 6x (2 min @ 7.8 / 2 min @ 3.5) → 5 min @ 5.0', dist:3.1,  speed:'7.8 / 3.5' },
-  { wk:10, day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.5 mph — 32 min', dist:3.47, speed:'6.5' },
-  { wk:11, day:'Tue', type:'Tempo Run',  desc:'5 min @ 5.5 → 25 min @ 7.2 → 5 min @ 5.0 mph', dist:3.7,  speed:'5.5 / 7.2 / 5.0' },
-  { wk:11, day:'Sat', type:'Intervals',  desc:'5 min @ 5.5 → 5x (3 min @ 7.8 / 2 min @ 3.5) → 5 min @ 5.0', dist:3.2,  speed:'7.8 / 3.5' },
-  { wk:12, day:'Tue', type:'Easy Run',   desc:'Continuous @ 6.5 mph — 30 min (shake out legs)', dist:3.25, speed:'6.5' },
-  { wk:12, day:'Sat', type:'Time Trial', desc:'5K Time Trial — run 3.1 mi at best effort. Target: sub-25:00 (~7.4 mph)', dist:3.1,  speed:'Best effort' },
+  { wk:7, day:'Tue', type:'Intervals',  desc:'5 min @ 6.0 → 6x (2 min @ 8.2 / 90s @ 3.5) → 5 min @ 5.5', dist:3.2,  speed:'8.2 / 3.5' },
+  { wk:7, day:'Sat', type:'Tempo Run',  desc:'5 min @ 6.0 → 25 min @ 7.5 → 5 min @ 5.5 mph', dist:3.7,  speed:'6.0 / 7.5 / 5.5' },
+  { wk:8, day:'Tue', type:'Easy Run',   desc:'Continuous @ 6.8 mph — 30 min', dist:3.4,  speed:'6.8' },
+  { wk:8, day:'Sat', type:'Tempo Run',  desc:'5 min @ 6.0 → 28 min @ 7.8 → 5 min @ 5.5 mph', dist:4.0,  speed:'6.0 / 7.8 / 5.5' },
+  { wk:9, day:'Tue', type:'Intervals',  desc:'5 min @ 6.0 → 5x (3 min @ 8.5 / 90s @ 3.5) → 5 min @ 5.5', dist:3.4,  speed:'8.5 / 3.5' },
+  { wk:9, day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.8 mph — 32 min', dist:3.6,  speed:'6.8' },
+  { wk:10, day:'Tue', type:'Tempo Run',  desc:'5 min @ 6.0 → 28 min @ 8.0 → 5 min @ 5.5 mph', dist:4.1,  speed:'6.0 / 8.0 / 5.5' },
+  { wk:10, day:'Sat', type:'Intervals',  desc:'5 min @ 6.0 → 4x (4 min @ 8.5 / 2 min @ 3.5) → 5 min @ 5.5', dist:3.5,  speed:'8.5 / 3.5' },
+  { wk:11, day:'Tue', type:'Tempo Run',  desc:'5 min @ 6.0 → 20 min @ 8.2 → 5 min @ 5.5 mph (taper week)', dist:3.3,  speed:'6.0 / 8.2 / 5.5' },
+  { wk:11, day:'Sat', type:'Easy Run',   desc:'Continuous @ 6.5 mph — 20 min (fresh legs, taper)', dist:2.2,  speed:'6.5' },
+  { wk:12, day:'Tue', type:'Easy Run',   desc:'Shake-out run @ 6.0 mph — 15 min only. Stay fresh for Saturday.', dist:1.5,  speed:'6.0' },
+  { wk:12, day:'Sat', type:'Time Trial', desc:'GOAL 5K — Set treadmill to 8.4 mph. Run 3.1 mi = 22:08. Push!', dist:3.1,  speed:'8.4 (sub-22 pace)' },
   // Phase 3
   { wk:13, day:'Tue', type:'Intervals',  desc:'5 min @ 6.0 → 6x (2 min @ 8.2 / 90s @ 3.5) → 5 min @ 5.5', dist:3.2,  speed:'8.2 / 3.5' },
   { wk:13, day:'Sat', type:'Tempo Run',  desc:'5 min @ 6.0 → 25 min @ 7.5 → 5 min @ 5.5 mph', dist:3.7,  speed:'6.0 / 7.5 / 5.5' },
@@ -466,7 +466,7 @@ function showDetail(id) {
         <div class="input-grid cols2" style="margin-bottom:10px">
           <div class="input-group">
             <label>Target weight (lb)</label>
-            <input type="number" inputmode="decimal" placeholder="135" value="${exData.target||''}" data-field="target" data-ex="${ei}" onchange="saveLiftField(this,'${id}')">
+            <input type="number" inputmode="decimal" placeholder="BP: 50lb - 75lb; GS: 75-140; BSS: 40-70; RDL: 70-120" value="${exData.target||''}" data-field="target" data-ex="${ei}" onchange="saveLiftField(this,'${id}')">
           </div>
           <div class="input-group">
             <label>Actual weight (lb)</label>
